@@ -1,0 +1,18 @@
+#
+export CHE_PROJECTS_ROOT=~/workspace/quarkus-lab
+
+#spring boot run
+mvn spring-boot:run -f $CHE_PROJECTS_ROOT/quarkus-workshop-m3-labs/spring-petclinic
+
+
+#quarkus run (Live coding)
+mvn quarkus:dev -f $CHE_PROJECTS_ROOT/quarkus-workshop-m3-labs/quarkus-petclinic
+
+#add panache extension
+mvn -q quarkus:add-extension -Dextensions="hibernate-orm-panache, jdbc-h2" -f $CHE_PROJECTS_ROOT/quarkus-workshop-m3-labs/quarkus-petclinic
+
+
+
+oc new-app openshift/quarkus-builder~https://github.com/smrowley/quarkus-workshop-m3-labs.git#solution --context-dir=quarkus-petclinic --strategy=source
+
+oc new-app --name=petclinic quay.io/quarkus/ubi-quarkus-native-s2i:20.2.0-java11~https://github.com/smrowley/quarkus-workshop-m3-labs.git#solution --context-dir=quarkus-petclinic --strategy=source
